@@ -26,6 +26,15 @@ const quantityValidator = (quantity) => {
     };
   }
 
+  if (typeof quantity !== 'number') {
+    return {
+      err: {
+        code: 'invalid_data',
+        message: '"quantity" must be a number',
+      },
+    };
+  }
+
   return false;
 };
 
