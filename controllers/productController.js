@@ -9,11 +9,9 @@ const create = async (req, res) => {
     return res.status(422).json(newProduct);
   }
 
-  res.status(201).json({
-    _id: newProduct.insertedId,
-    name,
-    quantity,
-  });
+  // console.log('controller: ', newProduct.insertedId);
+
+  res.status(201).json(newProduct);
 };
 
 module.exports = {

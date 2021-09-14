@@ -1,6 +1,6 @@
 const ProductModel = require('../models/productModel');
 
-const create = async ({ name, quantity }) => {
+const nameValidator = async (name) => {
   if (name.length < 5 || !name) {
     return {
       err: {
@@ -9,6 +9,16 @@ const create = async ({ name, quantity }) => {
       },
     };
   }
+
+  const existingName = await ProductModel.findByName(name);
+  if (existingName) return { err: { code: 'invalid_data', message: 'Product already exists' } };
+
+  return false;
+};
+
+const create = async ({ name, quantity }) => {
+  const validateName = await nameValidator(name);
+  if (validateName) return validateName;
 
   const newProduct = await ProductModel.create({ name, quantity });
   return newProduct;
