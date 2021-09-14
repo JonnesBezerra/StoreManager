@@ -7,6 +7,7 @@ const app = express();
 
 app.use(bodyParser.json());
 
+app.get('/', (req, res) => res.json({ message: 'Everything alright!' }));
 app.use('/products', productRouter);
 
 // não remova esse endpoint, e para o avaliador funcionar

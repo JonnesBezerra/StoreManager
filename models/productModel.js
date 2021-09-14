@@ -2,14 +2,19 @@ const connection = require('./connection');
 
 const getAll = async () => {
   const db = await connection();
-  const allSongs = await db.collection('songs').find().toArray();
-  return allSongs;
+  const allProducts = await db.collection('products').find().toArray();
+  return allProducts;
 };
 
-const create = async ({ name, album }) => {
+const create = async ({ name, quantity }) => {
   const db = await connection();
-  const newSong = await db.collection('songs').insertOne({ name, album });
-  return { id: newSong.insertedId, name, album };
+  const newProduct = await db.collection('products').insertOne({ name, quantity });
+
+  return {
+    _id: newProduct.insertedId,
+    name,
+    quantity,
+  };
 };
 
 module.exports = {

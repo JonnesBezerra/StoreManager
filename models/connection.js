@@ -1,21 +1,29 @@
-const { MongoCliente } = require('mongodb');
+const { MongoClient } = require('mongodb');
 
 const OPTIONS = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 };
 
-const MONGODB_URL = 'mongo://127.0.0.1:27017';
-const MUSICCLASS = 'musicClass';
+// Local DB
+const MONGODB_URL = 'mongodb://localhost:27017/StoreManager';
+const DB_NAME = 'StoreManager';
 
-const db = null;
+// Avaliator DB
+// const MONGO_DB_URL = 'mongodb://mongodb:27017/StoreManager';
+// const DB_NAME = 'StoreManager';
+
+let db = null;
 
 const connection = () => (
   db
   ? Promise.resolve(db)
-  : MongoCliente.connect(MONGODB_URL, OPTIONS)
-  .then((conn) => conn.db(MUSICCLASS))
-  .cattch((err) => {
+  : MongoClient.connect(MONGODB_URL, OPTIONS)
+  .then((conn) => {
+    db = conn.db(DB_NAME);
+    return db;
+  })
+  .catch((err) => {
     console.error(err);
     process.exit(1);
   })
