@@ -16,9 +16,25 @@ const nameValidator = async (name) => {
   return false;
 };
 
+const quantityValidator = (quantity) => {
+  if (quantity <= 0) {
+    return {
+      err: {
+        code: 'invalid_data',
+        message: '"quantity" must be larger than or equal to 1',
+      },
+    };
+  }
+
+  return false;
+};
+
 const create = async ({ name, quantity }) => {
   const validateName = await nameValidator(name);
   if (validateName) return validateName;
+
+  const validateQuantity = quantityValidator(quantity);
+  if (validateQuantity) return validateQuantity;
 
   const newProduct = await ProductModel.create({ name, quantity });
   return newProduct;
