@@ -12,8 +12,6 @@ const create = async ({ name, quantity }) => {
   const db = await connection();
   const newProduct = await db.collection(PRODUCTS).insertOne({ name, quantity });
 
-  console.log('model: ', newProduct.insertedId);
-
   return {
     _id: newProduct.insertedId,
     name,
