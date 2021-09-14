@@ -3,9 +3,13 @@ const connection = require('./connection');
 const PRODUCTS = 'products';
 
 const getAll = async () => {
-  const db = await connection();
-  const allProducts = await db.collection(PRODUCTS).find().toArray();
-  return allProducts;
+  try {
+    const db = await connection();
+    const allProducts = await db.collection(PRODUCTS).find({}).toArray();
+    return allProducts;
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 const create = async ({ name, quantity }) => {
