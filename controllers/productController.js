@@ -5,16 +5,15 @@ const create = async (req, res) => {
 
   const newProduct = await ProductService.create({ name, quantity });
 
-  if (!newProduct) {
-    return res.status(422).json({
-      err: {
-        code: 'invalid_data',
-        message: '"name" length must be at least 5 characters long',
-      },
-    });
+  if (newProduct.err) {
+    return res.status(422).json(newProduct);
   }
 
-  res.status(201).json(newProduct);
+  res.status(201).json({
+    _id: newProduct.insertedId,
+    name,
+    quantity,
+  });
 };
 
 module.exports = {
