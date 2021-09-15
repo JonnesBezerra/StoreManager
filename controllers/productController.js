@@ -9,18 +9,25 @@ const create = async (req, res) => {
     return res.status(422).json(newProduct);
   }
 
-  // console.log('controller: ', newProduct.insertedId);
-
   res.status(201).json(newProduct);
 };
 
-const getAll = async (req, res) => {
+const getAll = async (_req, res) => {
   const products = await ProductService.getAll();
 
   res.status(200).json({ products });
 };
 
+const getByID = async (req, res) => {
+  const { id } = req.params;
+
+  const product = await ProductService.getByID(id);
+
+  res.status(200).json(product);
+};
+
 module.exports = {
   create,
   getAll,
+  getByID,
 };
