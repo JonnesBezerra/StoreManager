@@ -28,8 +28,20 @@ const getByID = async (req, res) => {
   res.status(200).json(product);
 };
 
+const update = async (req, res) => {
+  const { name, quantity } = req.body;
+  const { id } = req.params;
+
+  const productUpdated = await ProductService.update({ id, name, quantity });
+
+  if (productUpdated.err) return res.status(422).json(productUpdated);
+
+  res.status(200).json(productUpdated);
+};
+
 module.exports = {
   create,
   getAll,
   getByID,
+  update,
 };

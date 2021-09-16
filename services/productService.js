@@ -1,6 +1,13 @@
 const ProductModel = require('../models/productModel');
 
-const nameValidator = async (name) => {
+const repeatedNameValidator = async (name) => {
+  const existingName = await ProductModel.findByName(name);
+  if (existingName) return { err: { code: 'invalid_data', message: 'Product already exists' } };
+
+  return false;
+};
+
+const nameLengthValidator = async (name) => {
   if (name.length < 5 || !name) {
     return {
       err: {
@@ -9,9 +16,6 @@ const nameValidator = async (name) => {
       },
     };
   }
-
-  const existingName = await ProductModel.findByName(name);
-  if (existingName) return { err: { code: 'invalid_data', message: 'Product already exists' } };
 
   return false;
 };
@@ -39,8 +43,11 @@ const quantityValidator = (quantity) => {
 };
 
 const create = async ({ name, quantity }) => {
-  const validateName = await nameValidator(name);
-  if (validateName) return validateName;
+  const validateNameLength = await nameLengthValidator(name);
+  if (validateNameLength) return validateNameLength;
+
+  const validateRepeatName = await repeatedNameValidator(name);
+  if (validateRepeatName) return validateRepeatName;
 
   const validateQuantity = quantityValidator(quantity);
   if (validateQuantity) return validateQuantity;
@@ -59,8 +66,20 @@ const getByID = async (id) => {
   return product;
 };
 
+const update = async ({ id, name, quantity }) => {
+  const validateName = await nameLengthValidator(name);
+  if (validateName) return validateName;
+
+  const validateQuantity = quantityValidator(quantity);
+  if (validateQuantity) return validateQuantity;
+
+  const productUpdated = await ProductModel.update({ id, name, quantity });
+  return productUpdated;
+};
+
 module.exports = {
   create,
   getAll,
   getByID,
+  update,
 };
