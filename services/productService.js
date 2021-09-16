@@ -42,6 +42,12 @@ const quantityValidator = (quantity) => {
   return false;
 };
 
+const idFormatValidator = (product) => {
+  if (!product) return { err: { code: 'invalid_data', message: 'Wrong id format' } };
+
+  return false;
+};
+
 const create = async ({ name, quantity }) => {
   const validateNameLength = await nameLengthValidator(name);
   if (validateNameLength) return validateNameLength;
@@ -61,7 +67,8 @@ const getAll = async () => ProductModel.getAll();
 const getByID = async (id) => {
   const product = await ProductModel.getByID(id);
 
-  if (!product) return { err: { code: 'invalid_data', message: 'Wrong id format' } };
+  const idError = idFormatValidator(product);
+  if (idError) return idError;
 
   return product;
 };
@@ -77,9 +84,19 @@ const update = async ({ id, name, quantity }) => {
   return productUpdated;
 };
 
+const deleteProduct = async (id) => {
+  const productDeleted = await ProductModel.deleteProduct(id);
+
+  const idError = idFormatValidator(productDeleted);
+  if (idError) return idError;
+
+  return productDeleted;
+};
+
 module.exports = {
   create,
   getAll,
   getByID,
   update,
+  deleteProduct,
 };
