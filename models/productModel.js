@@ -76,6 +76,42 @@ const deleteProduct = async (id) => {
   return value;
 };
 
+// filterByOperation and updateQuantity inspired by: https://github.com/tryber/sd-010-b-store-manager/blob/093c003363d3745e7d4e81b8622fd6e37bc1d3d1/models/productsModel.js#L89
+const filterByOperation = (operation, productID, quantity) => {
+  switch (operation) {
+    case 'decrease':
+      return {
+        $and: [
+          { _id: ObjectId(productID) },
+          { $expr: { $lt: [quantity, '$quantity'] } },
+        ],
+      };
+    default:
+      return { $and: [{ _id: ObjectId(productID) }] };
+  }
+};
+
+const updateQuantity = async (operation, itensSold) => {
+  if (operation !== 'decrease' && operation !== 'increase') {
+    return null;
+  }
+
+  const db = await connection();
+
+  const updateForEachProduct = itensSold.map(({ productId, quantity }) => {
+    const whatToDo = (operation === 'decrease') ? { quantity: -quantity } : { quantity };
+
+    return db.collection(PRODUCTS).findOneAndUpdate(
+      filterByOperation(operation, productId, quantity),
+      { $inc: whatToDo },
+      { returnDocument: 'after' },
+    );
+  });
+
+  const promiseResult = await Promise.all(updateForEachProduct);
+  return promiseResult.every(({ value }) => value);
+};
+
 module.exports = {
   getAll,
   create,
@@ -83,4 +119,5 @@ module.exports = {
   getByID,
   update,
   deleteProduct,
+  updateQuantity,
 };
