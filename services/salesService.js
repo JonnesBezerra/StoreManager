@@ -1,10 +1,11 @@
 const SalesModel = require('../models/salesModel');
 const ProductModel = require('../models/productModel');
 
-const amountValidator = (itemsSold) => {
-  const biggerOrNot = itemsSold.every((item) => item.quantity > 0);
+const quantityValidator = (itemsSold) => {
+  const biggerThanZero = itemsSold.every((item) => item.quantity > 0);
+  const isNumber = itemsSold.every((item) => !Number.isNaN(item.quantity));
 
-  if (!biggerOrNot) {
+  if (!biggerThanZero && isNumber) {
     return {
       err: {
         code: 'invalid_data',
@@ -23,7 +24,7 @@ const idNotExists = (sale) => {
 };
 
 const create = async (itensSold) => {
-  const validateAmount = amountValidator(itensSold);
+  const validateAmount = quantityValidator(itensSold);
   if (validateAmount) return validateAmount;
   
   const newSale = await SalesModel.create(itensSold);
