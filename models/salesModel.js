@@ -12,6 +12,17 @@ const create = async (itensSold) => {
   };
 };
 
+const getAll = async () => {
+  try {
+    const db = await connection();
+    const allSales = await db.collection(SALES).find({}).toArray();
+    return { sales: allSales };
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 module.exports = {
   create,
+  getAll,
 };

@@ -5,7 +5,6 @@ const amountValidator = (itemsSold) => {
   const biggerOrNot = itemsSold.every((item) => item.quantity > 0);
 
   if (!biggerOrNot) {
-    console.log('é menor que zero');
     return {
       err: {
         code: 'invalid_data',
@@ -27,6 +26,9 @@ const create = async (itensSold) => {
   return newSale;
 };
 
+const getAll = async () => SalesModel.getAll();
+
 module.exports = {
   create,
+  getAll,
 };
