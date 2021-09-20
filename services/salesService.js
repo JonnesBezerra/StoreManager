@@ -65,6 +65,8 @@ const deleteSale = async (id) => {
   const idError = idFormatValidator(saleDeleted);
   if (idError) return idError;
 
+  await ProductModel.updateQuantity('increase', saleDeleted.itensSold);
+
   return saleDeleted;
 };
 
