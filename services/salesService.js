@@ -44,8 +44,18 @@ const getByID = async (id) => {
   return sale;
 };
 
+const update = async (updateSale) => {
+  const { itensSold } = updateSale;
+  const validateQuantity = quantityValidator(itensSold);
+  if (validateQuantity) return validateQuantity;
+
+  const saleUpdated = SalesModel.update(updateSale);
+  return saleUpdated;
+};
+
 module.exports = {
   create,
   getAll,
   getByID,
+  update,
 };
