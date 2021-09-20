@@ -20,6 +20,8 @@ const getByID = async (req, res) => {
   const { id } = req.params;
   const sale = await SalesService.getByID(id);
 
+  if (sale.err) return res.status(404).json(sale);
+
   res.status(200).json(sale);
 };
 

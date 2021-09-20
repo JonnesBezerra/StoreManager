@@ -28,6 +28,8 @@ const getByID = async (id) => {
 
   const db = await connection();
   const saleFound = db.collection(SALES).findOne({ _id: ObjectId(id) });
+
+  if (!saleFound) return null;
   
   return saleFound;
 };

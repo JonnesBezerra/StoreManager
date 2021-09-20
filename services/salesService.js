@@ -16,6 +16,12 @@ const amountValidator = (itemsSold) => {
   return false;
 };
 
+const idNotExists = (sale) => {
+  if (!sale) return { err: { code: 'not_found', message: 'Sale not found' } };
+
+  return false;
+};
+
 const create = async (itensSold) => {
   const validateAmount = amountValidator(itensSold);
   if (validateAmount) return validateAmount;
@@ -30,6 +36,10 @@ const getAll = async () => SalesModel.getAll();
 
 const getByID = async (id) => {
   const sale = await SalesModel.getByID(id);
+
+  const idError = idNotExists(sale);
+  if (idError) return idError;
+
   return sale;
 };
 
