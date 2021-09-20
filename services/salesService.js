@@ -29,12 +29,28 @@ const idFormatValidator = (sale) => {
   return false;
 };
 
+const amountValidator = (quantity) => {
+  if (!quantity) {
+    return {
+      err: {
+        code: 'stock_problem',
+        message: 'Such amount is not permitted to sell',
+      },
+    }; 
+  }
+
+  return false;
+};
+
 const create = async (itensSold) => {
   const validateAmount = quantityValidator(itensSold);
   if (validateAmount) return validateAmount;
   
   const newSale = await SalesModel.create(itensSold);
-  await ProductModel.updateQuantity('decrease', itensSold);
+  const quantityOK = await ProductModel.updateQuantity('decrease', itensSold);
+
+  const isQuantityOK = amountValidator(quantityOK);
+  if (isQuantityOK) return isQuantityOK;
 
   return newSale;
 };

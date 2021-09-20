@@ -5,7 +5,11 @@ const create = async (req, res) => {
 
   const newSale = await SalesService.create(itensSold);
 
-  if (newSale.err) return res.status(422).json(newSale);
+  // if (newSale.err) return res.status(422).json(newSale);
+  if (newSale.err) {
+    if (newSale.err.code === 'invalid_data') return res.status(422).json(newSale);
+    if (newSale.err.code === 'stock_problem') return res.status(404).json(newSale);
+  }
   
   res.status(200).json(newSale);
 };
