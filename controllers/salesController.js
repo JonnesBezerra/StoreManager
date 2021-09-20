@@ -41,6 +41,8 @@ const deleteSale = async (req, res) => {
 
   const saleDeleted = await SalesService.deleteSale(id);
 
+  if (saleDeleted.err) return res.status(422).json(saleDeleted);
+
   res.status(200).json(saleDeleted);
 };
 

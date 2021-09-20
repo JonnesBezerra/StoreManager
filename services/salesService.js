@@ -23,6 +23,12 @@ const idNotExists = (sale) => {
   return false;
 };
 
+const idFormatValidator = (sale) => {
+  if (!sale) return { err: { code: 'invalid_data', message: 'Wrong sale ID format' } };
+
+  return false;
+};
+
 const create = async (itensSold) => {
   const validateAmount = quantityValidator(itensSold);
   if (validateAmount) return validateAmount;
@@ -55,6 +61,9 @@ const update = async (updateSale) => {
 
 const deleteSale = async (id) => {
   const saleDeleted = await SalesModel.deleteSale(id);
+
+  const idError = idFormatValidator(saleDeleted);
+  if (idError) return idError;
 
   return saleDeleted;
 };
