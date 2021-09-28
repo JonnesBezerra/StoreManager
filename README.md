@@ -1,12 +1,40 @@
-### Termos e acordos
+# Este é o repositório do projeto Store Manager
 
-Ao iniciar este projeto, você concorda com as diretrizes do Código de Ética e Conduta e do Manual da Pessoa Estudante da Trybe
+Store Manager é uma API Restful de um sistema de gerenciamento de vendas e produtos, onde é possível criar, visualizar, deletar e atualizar esse produtos e essas vendas.
 
-# Boas vindas ao repositório do projeto Store Manager!
+---
 
-Você já usa o GitHub diariamente para desenvolver os exercícios, certo? Agora, para desenvolver os projetos, você deverá seguir as instruções a seguir. Fique atento a cada passo, e se tiver qualquer dúvida, nos envie por Slack! #vqv 🚀
+# Habilidades desenvolvidas nesse projeto foram:
 
-Aqui você vai encontrar os detalhes de como estruturar o desenvolvimento do seu projeto a partir deste repositório, utilizando uma branch específica e um Pull Request para colocar seus códigos.
+  - Entender o funcionamento da camada de Model;
+  - Delegar responsabilidades específicas para essa camada;
+  - Conectar sua aplicação com diferentes bancos de dados;
+  - Estruturar uma aplicação em camadas;
+  - Delegar responsabilidades específicas para cada parte do seu app;
+  - Melhorar manutenibilidade e reusabilidade do seu código;
+  - Entender e aplicar os padrões REST;
+  - Escrever assinaturas para APIs intuitivas e facilmente entendíveis.
+
+# Instruções para rodar o projeto em sua máquina:
+
+  1. Clone o projeto em um diretório na sua máquina utilizando o seguinte comando no terminal:
+  ```bash 
+  git clone git@github.com:JonnesBezerra/StoreManager.git
+  ```
+  2. Agora entre no diretório do projeto e instale as dependências com o seguinte comando:
+  ```bash
+  cd RecipesApp/ && npm install
+  ```
+  > PS: Esta aplicação depende do MongoDB instalado, vc pode verificar o status do serviço digitando **sudo systemctl status mongod**
+  3. Depois que a instalação terminar finalmente você pode rodar o projeto digitando o seguinte comando:
+  ```bash
+  npm start
+  ```
+  4. Agora utilize o Postman ou outra ferramenta de sua preferência para fazer requisições aos endpoints 😉
+  - (usando a URL http://localhost:3000)
+
+# Lista de endpoints
+  - [endpoints](#1---crie-um-endpoint-para-o-cadastro-de-produtos)
 
 ---
 
